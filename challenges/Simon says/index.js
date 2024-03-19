@@ -13,43 +13,44 @@ let win;
 let gameSetUp = {
   order: [],
   playerOrder: [],
-  flash,
-  turn,
-  good,
-  compTurn,
-  intervalId,
+  flash: null,
+  turn: null,
+  good: null,
+  compTurn: null,
+  intervalId: null,
   strict: false,
   noise: true,
   on: false,
-  win,
+  win: null,
 };
-console.log(gameSetUp);
-const turnCounter = document.querySelector('#turn');
-const topLeft = document.querySelector('#topleft');
-const topRight = document.querySelector('#topright');
-const bottomLeft = document.querySelector('#bottomleft');
-const bottomRight = document.querySelector('#bottomright');
-const strictButton = document.querySelector('#strict');
-const onButton = document.querySelector('#on');
-const startButton = document.querySelector('#start');
 
-strictButton.addEventListener('change', (event) => {
+console.log(gameSetUp);
+
+const turnCounter = document.querySelector("#turn");
+const topLeft = document.querySelector("#topleft");
+const topRight = document.querySelector("#topright");
+const bottomLeft = document.querySelector("#bottomleft");
+const bottomRight = document.querySelector("#bottomright");
+const strictButton = document.querySelector("#strict");
+const onButton = document.querySelector("#on");
+const startButton = document.querySelector("#start");
+
+strictButton.addEventListener("change", (event) => {
   strictButton.checked === true ? (strict = true) : (strict = false);
 });
 
-onButton.addEventListener('click', (event) => {
+onButton.addEventListener("click", (event) => {
   onButton.checked === true
-    ? ((on = true), (turnCounter.innerHTML = '-'))
+    ? ((on = true), (turnCounter.innerHTML = "-"))
     : ((on = false),
-      (turnCounter.innerHTML = ''),
+      (turnCounter.innerHTML = ""),
       clearColor(),
       clearInterval(intervalId));
 });
 
-startButton.addEventListener('click', (event) => {
-  if (on || win) {
-    play();
-  } // on || (win && play()); doesn not work cause of editor
+startButton.addEventListener("click", (event) => {
+  if (on || win) play();
+  // on || (win && play()); doesn not work cause of editor
 });
 
 let setupReset = (SetUp) => {
@@ -87,117 +88,94 @@ function gameTurn() {
     clearColor(); // Added parentheses here
     setTimeout(() => {
       if (order[flash] == 1) one();
-      if (order[flash] == 2) two();
-      if (order[flash] == 3) three();
-      if (order[flash] == 4) four();
+      else if (order[flash] == 2) two();
+      else if (order[flash] == 3) three();
+      else if (order[flash] == 4) four();
       flash++;
     }, 200);
   }
 }
 function one() {
-  let audioOne = document.getElementById('clip1');
+  let audioOne = document.getElementById("clip1");
   noise ? audioOne.play() : undefined;
   noise = true;
-  topLeft.style.backgroundColor = 'lightgreen';
+  topLeft.style.backgroundColor = "lightgreen";
 }
 function two() {
-  let audioTwo = document.getElementById('clip2');
+  let audioTwo = document.getElementById("clip2");
   noise ? audioTwo.play() : undefined;
   noise = true;
-  topRight.style.backgroundColor = 'tomato';
+  topRight.style.backgroundColor = "tomato";
 }
 function three() {
-  let audioThree = document.getElementById('clip3');
+  let audioThree = document.getElementById("clip3");
   noise ? audioThree.play() : undefined;
   noise = true;
-  bottomLeft.style.backgroundColor = 'yellow';
+  bottomLeft.style.backgroundColor = "yellow";
 }
 function four() {
-  let audioFour = document.getElementById('clip4');
+  let audioFour = document.getElementById("clip4");
   noise ? audioFour.play() : undefined;
   noise = true;
-  bottomRight.style.backgroundColor = 'lightskyblue';
+  bottomRight.style.backgroundColor = "lightskyblue";
 }
 function clearColor() {
-  topLeft.style.backgroundColor = 'darkgreen';
-  topRight.style.backgroundColor = 'darkred';
-  bottomLeft.style.backgroundColor = 'goldenrod';
-  bottomRight.style.backgroundColor = 'darkblue';
+  topLeft.style.backgroundColor = "darkgreen";
+  topRight.style.backgroundColor = "darkred";
+  bottomLeft.style.backgroundColor = "goldenrod";
+  bottomRight.style.backgroundColor = "darkblue";
 }
 
 function flashColor() {
-  topLeft.style.backgroundColor = 'lightgreen';
-  topRight.style.backgroundColor = 'tomato';
-  bottomLeft.style.backgroundColor = 'yellow'; // Corrected typo here
-  bottomRight.style.backgroundColor = 'lightblue';
+  topLeft.style.backgroundColor = "lightgreen";
+  topRight.style.backgroundColor = "tomato";
+  bottomLeft.style.backgroundColor = "yellow"; // Corrected typo here
+  bottomRight.style.backgroundColor = "lightblue";
 }
-topLeft.addEventListener('click', (event) => {
+
+function controlColor(index) {
   if (on) {
-    playerOrder.push(1);
+    playerOrder.push(index);
     check();
-    one();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
+    switch (true) {
+      case index == 1:
+        one();
+        break;
+      case index == 2:
+        two();
+        break;
+      case index == 3:
+        three();
+        break;
+      case index == 4:
+        four();
+        break;
+      default:
+        break;
     }
+    !win && setTimeout(() => clearColor(), 300);
   }
-});
-topRight.addEventListener('click', (event) => {
-  if (on) {
-    playerOrder.push(2);
-    check();
-    two();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
-  }
-});
-bottomLeft.addEventListener('click', (event) => {
-  if (on) {
-    playerOrder.push(3);
-    check();
-    three();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
-  }
-});
-bottomRight.addEventListener('click', (event) => {
-  if (on) {
-    playerOrder.push(4);
-    check();
-    four();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
-  }
-});
+}
+
+[topLeft, topRight, bottomLeft, bottomRight].forEach((location, index) =>
+  location.addEventListener("click", () => controlColor(index + 1))
+);
 
 function check() {
   if (playerOrder[playerOrder.length - 1] !== order[playerOrder.length - 1])
     good = false;
 
-  if (playerOrder.length == order.length && good) {
-    winGame();
-  }
+  if (playerOrder.length == order.length && good) winGame();
 
   if (good == false) {
     flashColor();
-    turnCounter.innerHTML = 'NO!';
+    turnCounter.innerHTML = "NO!";
     setTimeout(() => {
       turnCounter.innerHTML = turn;
       clearColor();
 
-      if (strict) {
-        play();
-      } else {
+      if (strict) play();
+      else {
         compTurn = true;
         flash = 0;
         playerOrder = [];
@@ -219,7 +197,7 @@ function check() {
 }
 function winGame() {
   flashColor();
-  turnCounter.innerHTML = 'WIN!';
+  turnCounter.innerHTML = "WIN!";
   on = false;
   win = true;
 }

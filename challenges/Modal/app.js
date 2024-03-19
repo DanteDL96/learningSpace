@@ -7,16 +7,10 @@
 // const modalOverlay = document.querySelector('.modal-overlay');
 // const closeBtn = document.querySelector('.close-btn');
 
-const modalBtn = document
-  .querySelector('.modal-btn')
-  .addEventListener('click', function () {
-    modalOverlay.classList.toggle('open-modal');
-  });
+document.querySelector(".modal-btn").addEventListener("click", () => {
+  document.querySelector(".modal-overlay").classList.toggle("open-modal");
+});
 
-const modalOverlay = document.querySelector('.modal-overlay');
-
-const closeBtn = document
-  .querySelector('.close-btn')
-  .addEventListener('click', function () {
-    modalOverlay.classList.remove('open-modal');
-  });
+document.querySelector(".close-btn").addEventListener("click", () => {
+  document.querySelector(".modal-overlay").classList.remove("open-modal");
+});
