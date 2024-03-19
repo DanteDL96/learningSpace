@@ -10,20 +10,6 @@ let noise = true;
 let on = false;
 let win;
 
-let gameSetUp = {
-  order: [],
-  playerOrder: [],
-  flash,
-  turn,
-  good,
-  compTurn,
-  intervalId,
-  strict: false,
-  noise: true,
-  on: false,
-  win,
-};
-console.log(gameSetUp);
 const turnCounter = document.querySelector('#turn');
 const topLeft = document.querySelector('#topleft');
 const topRight = document.querySelector('#topright');
@@ -32,57 +18,58 @@ const bottomRight = document.querySelector('#bottomright');
 const strictButton = document.querySelector('#strict');
 const onButton = document.querySelector('#on');
 const startButton = document.querySelector('#start');
-
 strictButton.addEventListener('change', (event) => {
-  strictButton.checked === true ? (strict = true) : (strict = false);
+  if (strictButton.checked == true) {
+    strict = true;
+  } else {
+    strict = false;
+  }
 });
 
 onButton.addEventListener('click', (event) => {
-  onButton.checked === true
-    ? ((on = true), (turnCounter.innerHTML = '-'))
-    : ((on = false),
-      (turnCounter.innerHTML = ''),
-      clearColor(),
-      clearInterval(intervalId));
+  if (onButton.checked == true) {
+    on = true;
+    turnCounter.innerHTML = '-';
+  } else {
+    on = false;
+    turnCounter.innerHTML = '';
+    clearColor();
+    clearInterval(intervalId);
+  }
 });
 
 startButton.addEventListener('click', (event) => {
   if (on || win) {
     play();
-  } // on || (win && play()); doesn not work cause of editor
+  }
 });
-
-let setupReset = (SetUp) => {
-  SetUp.win = false;
-  SetUp.order = [];
-  SetUp.playerOrder = [];
-  SetUp.flash = 0;
-  SetUp.intervalId = 0;
-  SetUp.turn = 1;
-  SetUp.turnCounter.innerHTML = 1;
-  SetUp.good = true;
-};
-
 function play() {
-  setupReset(
-    gameSetUp[
-      (win, order, playerOrder, flash, intervalId, turn, turnCounter, good)
-    ]
-  );
+  win = false;
+  order = [];
+  playerOrder = [];
+  flash = 0;
+  intervalId = 0;
+  turn = 1;
+  turnCounter.innerHTML = 1;
+  good = true;
 
   for (let i = 0; i < 20; i++) {
     order.push(Math.floor(Math.random() * 4) + 1);
   }
   compTurn = true;
+
   intervalId = setInterval(gameTurn, 800);
 }
 
 function gameTurn() {
   on = false;
-  flash == turn
-    ? (clearInterval(intervalId), (compTurn = false), clearColor(), (on = true))
-    : undefined;
 
+  if (flash == turn) {
+    clearInterval(intervalId);
+    compTurn = false;
+    clearColor(); // Added parentheses here
+    on = true;
+  }
   if (compTurn) {
     clearColor(); // Added parentheses here
     setTimeout(() => {
@@ -95,26 +82,34 @@ function gameTurn() {
   }
 }
 function one() {
-  let audioOne = document.getElementById('clip1');
-  noise ? audioOne.play() : undefined;
+  if (noise) {
+    let audio = document.getElementById('clip1');
+    audio.play();
+  }
   noise = true;
   topLeft.style.backgroundColor = 'lightgreen';
 }
 function two() {
-  let audioTwo = document.getElementById('clip2');
-  noise ? audioTwo.play() : undefined;
+  if (noise) {
+    let audio = document.getElementById('clip2');
+    audio.play();
+  }
   noise = true;
   topRight.style.backgroundColor = 'tomato';
 }
 function three() {
-  let audioThree = document.getElementById('clip3');
-  noise ? audioThree.play() : undefined;
+  if (noise) {
+    let audio = document.getElementById('clip3');
+    audio.play();
+  }
   noise = true;
   bottomLeft.style.backgroundColor = 'yellow';
 }
 function four() {
-  let audioFour = document.getElementById('clip4');
-  noise ? audioFour.play() : undefined;
+  if (noise) {
+    let audio = document.getElementById('clip4');
+    audio.play();
+  }
   noise = true;
   bottomRight.style.backgroundColor = 'lightskyblue';
 }
@@ -210,9 +205,9 @@ function check() {
 
   if (turn == playerOrder.length && good && !win) {
     turn++;
+    playerOrder = [];
     compTurn = true;
     flash = 0;
-    playerOrder = [];
     turnCounter.innerHTML = turn;
     intervalId = setInterval(gameTurn, 800);
   }
