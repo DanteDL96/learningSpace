@@ -1,21 +1,14 @@
-const btns = document.querySelectorAll('.tab-btn');
-const about = document.querySelector('.about');
-const articles = document.querySelectorAll('.content');
-
-about.addEventListener('click', function (e) {
-  const id = e.target.dataset.id;
-  if (id) {
+document.querySelector(".about").addEventListener("click", (e) => {
+  if (e.target.dataset.id) {
     // remove active from other btns
-    btns.forEach(function (btn) {
-      btn.classList.remove('active');
-      e.target.classList.add('active');
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.classList.remove("active");
+      e.target.classList.add("active");
     });
     // hide other articles
-    articles.forEach(function (article) {
-      article.classList.remove('active');
-    });
-    const element = document.getElementById(id);
-    element.classList.add('active');
-    // console.log(id);
+    document
+      .querySelectorAll(".content")
+      .forEach((article) => article.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
   }
 });
