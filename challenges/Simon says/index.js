@@ -75,6 +75,7 @@ function play() {
     order.push(Math.floor(Math.random() * 4) + 1);
   }
   compTurn = true;
+  //need to clear this somewhat inside this function's scope or it'll cause a memory loop
   intervalId = setInterval(gameTurn, 800);
 }
 
@@ -85,74 +86,44 @@ function gameTurn() {
     : undefined;
 
   if (compTurn) {
-    clearColor(); // Added parentheses here
+    toggleColor(true); // Added parentheses here
     setTimeout(() => {
-      if (order[flash] == 1) one();
-      else if (order[flash] == 2) two();
-      else if (order[flash] == 3) three();
-      else if (order[flash] == 4) four();
+      segmentNumber(order[flash]);
       flash++;
     }, 200);
   }
 }
-function one() {
-  let audioOne = document.getElementById("clip1");
-  noise ? audioOne.play() : undefined;
+
+const segmentProperties = [
+  { clip: "clip1", bckgColor: "lightgreen" },
+  { clip: "clip2", bckgColor: "tomato" },
+  { clip: "clip3", bckgColor: "yellow" },
+  { clip: "clip4", bckgColor: "lightskyblue" },
+];
+
+function segmentNumber(number) {
+  let audio = document.getElementById(segmentProperties[number].clip);
+  noise ? audio.play() : undefined;
   noise = true;
-  topLeft.style.backgroundColor = "lightgreen";
-}
-function two() {
-  let audioTwo = document.getElementById("clip2");
-  noise ? audioTwo.play() : undefined;
-  noise = true;
-  topRight.style.backgroundColor = "tomato";
-}
-function three() {
-  let audioThree = document.getElementById("clip3");
-  noise ? audioThree.play() : undefined;
-  noise = true;
-  bottomLeft.style.backgroundColor = "yellow";
-}
-function four() {
-  let audioFour = document.getElementById("clip4");
-  noise ? audioFour.play() : undefined;
-  noise = true;
-  bottomRight.style.backgroundColor = "lightskyblue";
-}
-function clearColor() {
-  topLeft.style.backgroundColor = "darkgreen";
-  topRight.style.backgroundColor = "darkred";
-  bottomLeft.style.backgroundColor = "goldenrod";
-  bottomRight.style.backgroundColor = "darkblue";
+  topLeft.style.backgroundColor = segmentProperties[number].bckgColor;
 }
 
-function flashColor() {
-  topLeft.style.backgroundColor = "lightgreen";
-  topRight.style.backgroundColor = "tomato";
-  bottomLeft.style.backgroundColor = "yellow"; // Corrected typo here
-  bottomRight.style.backgroundColor = "lightblue";
+function toggleColor(mode) {
+  topLeft.style.backgroundColor =
+    mode == true ? "darkgreen" : segmentProperties[0].bckgColor;
+  topRight.style.backgroundColor =
+    mode == true ? "darkred" : segmentProperties[1].bckgColor;
+  bottomLeft.style.backgroundColor =
+    mode == true ? "goldenrod" : segmentProperties[2].bckgColor;
+  bottomRight.style.backgroundColor =
+    mode == true ? "darkblue" : segmentProperties[3].bckgColor;
 }
 
 function controlColor(index) {
   if (on) {
     playerOrder.push(index);
     check();
-    switch (true) {
-      case index == 1:
-        one();
-        break;
-      case index == 2:
-        two();
-        break;
-      case index == 3:
-        three();
-        break;
-      case index == 4:
-        four();
-        break;
-      default:
-        break;
-    }
+    segmentNumber(index - 1);
     !win && setTimeout(() => clearColor(), 300);
   }
 }
@@ -168,11 +139,11 @@ function check() {
   if (playerOrder.length == order.length && good) winGame();
 
   if (good == false) {
-    flashColor();
+    toggleColor(false);
     turnCounter.innerHTML = "NO!";
     setTimeout(() => {
       turnCounter.innerHTML = turn;
-      clearColor();
+      toggleColor(true);
 
       if (strict) play();
       else {
@@ -196,7 +167,7 @@ function check() {
   }
 }
 function winGame() {
-  flashColor();
+  toggleColor(false);
   turnCounter.innerHTML = "WIN!";
   on = false;
   win = true;
