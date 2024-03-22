@@ -102,10 +102,26 @@ const segmentProperties = [
 ];
 
 function segmentNumber(number) {
+  switch (true) {
+    case number === 0:
+      topLeft.style.backgroundColor = segmentProperties[number].bckgColor;
+      break;
+    case number === 1:
+      topRight.style.backgroundColor = segmentProperties[number].bckgColor;
+      break;
+    case number === 2:
+      bottomLeft.style.backgroundColor = segmentProperties[number].bckgColor;
+      break;
+    case number === 3:
+      bottomRight.style.backgroundColor = segmentProperties[number].bckgColor;
+      break;
+    default:
+      break;
+  }
+
   let audio = document.getElementById(segmentProperties[number].clip);
   noise ? audio.play() : undefined;
   noise = true;
-  topLeft.style.backgroundColor = segmentProperties[number].bckgColor;
 }
 
 function toggleColor(mode) {
