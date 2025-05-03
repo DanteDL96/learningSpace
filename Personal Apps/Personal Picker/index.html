@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Maker</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Load DaisyUI (latest version for improved styling) -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Holds container for the card -->
+    <div class="min-h-screen flex items-center justify-center bg-purple-700">
+        <!-- Card -->
+        <div class="card w-96 bg-neutral bg-base-100 shadow-lg p-6">
+            <div class="card-body">
+                <h1 class="text-5xl font-semibold tracking-tight text-lightgray-900 sm:text-7xl">
+                    Decision Maker
+                </h1>
+                <p>Have too many options and don't know what to choose?</p>
+                <p>Well, I can help you!</p>
+
+                <input id="box-value" class="input input-bordered input-primary w-full max-w-xs" type="text"
+                    placeholder="Enter an option">
+
+                <div class="btn-group flex justify-center mt-4">
+                    <button id="add-button" class="btn btn-primary">Add</button>
+                    <button id="pick" class="btn btn-secondary">Select</button>
+                    <button id="clear" class="btn btn-error">Clear List</button>
+                </div>
+
+                <div>
+                    <ul class="options h-20 grid grid-rows-4 grid-flow-col gap-2"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay and Popup -->
+    <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-gray-900 opacity-70 hidden"></div>
+
+    <div id="popup"
+        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white shadow-lg p-6 rounded-md hidden"
+        tabindex="0">
+        <div class="popup-controls flex justify-end">
+            <button id="popup-close" class="btn btn-error">X</button>
+        </div>
+        <div class="popup-content text-center">
+            <p id="winner" class="text-2xl font-bold text-purple-700"></p>
+        </div>
+    </div>
+
+    <script src="App.js"></script>
+
+</body>
+
+</html>
