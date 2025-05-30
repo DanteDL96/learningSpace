@@ -1,0 +1,32 @@
+{
+    "locations": [
+        {
+            "name": "Temple of Castor and Pollux",
+            "location": [41.891839019328394, 12.485632953042316],
+            "part": "Part 5: Golden Wind",
+            "description": "Featured in the fight against Ghiaccio",
+            "image": "media/IMG/TempleOfCastor.png"
+        },
+        {
+            "name": "Roman Colosseum",
+            "location": [41.89036192065039, 12.492263083095729],
+            "part": "Part 5: Golden Wind",
+            "description": "Iconic landmark featured in several scenes",
+            "image": "media/IMG/romanColosseum.png"
+        },
+        {
+            "name": "Rialto Bridge",
+            "location": [45.438187358030156, 12.335919436462422],
+            "part": "Part 5: Golden Wind",
+            "description": "Venice location where Giorno meets Bruno",
+            "image": "media/IMG/rialtoBridge.jpg"
+        },
+        {
+            "name": "Fontana del Tritone",
+            "location": [41.90384017851981, 12.488479072291657],
+            "part": "Part 5: Golden Wind",
+            "description": "Famous fountain featured in Rome scenes",
+            "image": "media/IMG/fontanaDelTritone.jpeg"
+        }
+    ]
+}

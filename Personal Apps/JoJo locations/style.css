@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'SF Fedora';
+    src: url('/media/fonts/SF-Fedora-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Fedora';
+    src: url('/media/fonts/SF-Fedora-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Fedora';
+    src: url('/media/fonts/SF-Fedora-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'SF Fedora';
+    src: url('/media/fonts/SF-Fedora-Bold-Italic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+body {
+    font-family: 'SF Fedora', sans-serif;
+    background-color: black !important;
+}
+
+
+.jojoTitle{
+    font-family: 'SF Fedora', sans-serif;
+    font-weight: normal;
+    /* color: #f36196; */
+
+
+    /* font-size: 72px; */
+    background: -webkit-linear-gradient(#f36196, white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
